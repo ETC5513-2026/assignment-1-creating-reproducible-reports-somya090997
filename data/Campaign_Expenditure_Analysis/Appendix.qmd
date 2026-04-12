@@ -1,0 +1,19 @@
+---
+title: "Appendix"
+author: Somya Verma
+format: 
+    html:
+      theme:
+        light: minty
+        dark: cyborg 
+    pdf:  default
+---
+![Prompt_1](Prompt_1.png){#fig-Prompt_1}
+
+![Prompt_2](Prompt_2.png){#fig-Prompt_2}
+
+![Prompt_3](Prompt_3.png){#fig-Prompt_3}
+
+![Prompt_4](Prompt_4.png){#fig-Prompt_4}
+
+
