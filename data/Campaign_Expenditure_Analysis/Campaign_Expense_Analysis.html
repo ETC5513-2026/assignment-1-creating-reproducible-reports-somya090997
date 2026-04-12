@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Somya Verma">
+
+<title>Campaign Investment Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Campaign_Expense_Analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Campaign_Expense_Analysis_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Campaign_Expense_Analysis_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Campaign_Expense_Analysis_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Campaign_Expense_Analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="Campaign_Expense_Analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Campaign_Expense_Analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Campaign_Expense_Analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Campaign_Expense_Analysis_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="Campaign_Expense_Analysis_files/libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="Campaign_Expense_Analysis_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="Campaign_Expense_Analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Campaign_Expense_Analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Campaign_Expense_Analysis_files/libs/bootstrap/bootstrap-eb8e57aaebd81cd9031d412f704ea5b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="Campaign_Expense_Analysis_files/libs/bootstrap/bootstrap-dark-ecedeb2774567cd409d03d92b2acc650.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="Campaign_Expense_Analysis_files/libs/bootstrap/bootstrap-eb8e57aaebd81cd9031d412f704ea5b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="Campaign_Expense_Analysis_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="Campaign_Expense_Analysis_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+
+</head>
+
+<body class="quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Campaign_Expense_Analysis.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Campaign Investment Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Somya Verma </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<section id="online-retailers-often-invest-in-personalised-marketing-strategies-to-increase-customer-engagement-and-sales.-however-it-is-not-always-clear-whether-higher-marketing-spend-per-customer-leads-to-greater-purchase-amounts.-this-study-aims-to-analyse-customer-level-data-including-marketing-spend-visits-and-purchase-behaviour-to-understand-this-relationship.-the-findings-can-help-businesses-make-more-informed-decisions-about-how-to-allocate-their-marketing-budget-effectively." class="level4">
+<h4 class="anchored" data-anchor-id="online-retailers-often-invest-in-personalised-marketing-strategies-to-increase-customer-engagement-and-sales.-however-it-is-not-always-clear-whether-higher-marketing-spend-per-customer-leads-to-greater-purchase-amounts.-this-study-aims-to-analyse-customer-level-data-including-marketing-spend-visits-and-purchase-behaviour-to-understand-this-relationship.-the-findings-can-help-businesses-make-more-informed-decisions-about-how-to-allocate-their-marketing-budget-effectively.">Online retailers often invest in personalised marketing strategies to increase customer engagement and sales. However, it is not always clear whether higher marketing spend per customer leads to greater purchase amounts. This study aims to analyse customer-level data, including marketing spend, visits, and purchase behaviour, to understand this relationship. The findings can help businesses make more informed decisions about how to allocate their marketing budget effectively.</h4>
+</section>
+</section>
+<section id="what-are-we-looking-at-research-question" class="level1">
+<h1>What are we looking at? (Research Question)</h1>
+<section id="we-will-see-if-the-two-dependent-variable-purchase-by-the-consumers-and-independent-variable-marketing-expense-by-the-company-on-marketing-are-correlated." class="level4">
+<h4 class="anchored" data-anchor-id="we-will-see-if-the-two-dependent-variable-purchase-by-the-consumers-and-independent-variable-marketing-expense-by-the-company-on-marketing-are-correlated.">We will see if the two, dependent variable “Purchase” (by the consumers) and independent variable “Marketing Expense” (by the company on marketing) are correlated.</h4>
+</section>
+<section id="it-will-also-include-looking-at-the-average-purchase-vs-the-average-marketing-expense-and-which-segment-of-customers-purchased-the-maximum." class="level4">
+<h4 class="anchored" data-anchor-id="it-will-also-include-looking-at-the-average-purchase-vs-the-average-marketing-expense-and-which-segment-of-customers-purchased-the-maximum.">It will also include looking at the average purchase v/s the average marketing expense, and which segment of customers purchased the maximum.</h4>
+</section>
+</section>
+<section id="data-set-introduction" class="level1">
+<h1>Data Set Introduction</h1>
+<section id="the-dataset-contains-customer-level-information-from-a-personalised-marketing-campaign-conducted-by-an-online-retailer.-this-dataset-consists-of-150-observations-and-7-variables.-such-as" class="level4">
+<h4 class="anchored" data-anchor-id="the-dataset-contains-customer-level-information-from-a-personalised-marketing-campaign-conducted-by-an-online-retailer.-this-dataset-consists-of-150-observations-and-7-variables.-such-as">The dataset contains customer-level information from a personalised marketing campaign conducted by an online retailer. This dataset consists of 150 observations and 7 variables. Such as:</h4>
+<ul>
+<li><h4 id="customer-id" class="anchored">Customer ID</h4></li>
+<li><h4 id="signup-dates" class="anchored">Signup dates</h4></li>
+<li><h4 id="marketing-expense" class="anchored">Marketing expense</h4></li>
+<li><h4 id="number-of-visits" class="anchored">Number of visits</h4></li>
+<li><h4 id="purchase-amount" class="anchored">Purchase Amount</h4></li>
+<li><h4 id="customer-type" class="anchored">Customer type</h4></li>
+<li><h4 id="comments" class="anchored">Comments</h4></li>
+</ul>
+</section>
+<section id="this-data-is-used-to-analyse-how-marketing-efforts-influence-customer-purchasing-behaviour.-to-prepare-the-dataset-for-analysis-several-cleaning-steps-were-performed." class="level4">
+<h4 class="anchored" data-anchor-id="this-data-is-used-to-analyse-how-marketing-efforts-influence-customer-purchasing-behaviour.-to-prepare-the-dataset-for-analysis-several-cleaning-steps-were-performed.">This data is used to analyse how marketing efforts influence customer purchasing behaviour. To prepare the dataset for analysis, several cleaning steps were performed.</h4>
+</section>
+<section id="column-names-were-standardised-for-clarity-missing-or-inconsistent-values-in-the-comments-field-were-handled-missing-purchase-amounts-were-replaced-with-0-and-date-values-were-converted-into-a-consistent-format-using-the-lubridate-library.-these-steps-ensured-the-dataset-is-clean-structured-and-suitable-for-analysis." class="level4">
+<h4 class="anchored" data-anchor-id="column-names-were-standardised-for-clarity-missing-or-inconsistent-values-in-the-comments-field-were-handled-missing-purchase-amounts-were-replaced-with-0-and-date-values-were-converted-into-a-consistent-format-using-the-lubridate-library.-these-steps-ensured-the-dataset-is-clean-structured-and-suitable-for-analysis.">Column names were standardised for clarity, missing or inconsistent values in the comments field were handled, missing purchase amounts were replaced with 0, and date values were converted into a consistent format using the lubridate library. These steps ensured the dataset is clean, structured, and suitable for analysis.</h4>
+</section>
+</section>
+<section id="satistical-analysis-of-data" class="level1">
+<h1>Satistical Analysis of Data</h1>
+<div class="cell">
+<div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Summary Statistics of Key Variables
+</figcaption>
+<div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small">
+<caption>Summary Statistics of Key Variables</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Avg_marketing</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Avg_purchase</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Avg_visits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right; width: 4cm;">154.3833</td>
+<td style="text-align: right; width: 4cm;">131.7766</td>
+<td style="text-align: right; width: 4cm;">5.76</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<section id="the-summary-statistics-in-tbl-summary-provide-an-overview-of-customer-behaviour-in-the-dataset.-on-average-the-marketing-expense-per-customer-is-154.38-while-the-average-purchase-amount-is-131.78-indicating-that-customers-generate-substantial-purchases-in-response-to-marketing-efforts.-customers-visit-the-platform-approx-5.76-times-on-average-suggesting-a-good-level-of-engagement." class="level5">
+<h5 class="anchored" data-anchor-id="the-summary-statistics-in-tbl-summary-provide-an-overview-of-customer-behaviour-in-the-dataset.-on-average-the-marketing-expense-per-customer-is-154.38-while-the-average-purchase-amount-is-131.78-indicating-that-customers-generate-substantial-purchases-in-response-to-marketing-efforts.-customers-visit-the-platform-approx-5.76-times-on-average-suggesting-a-good-level-of-engagement.">The summary statistics in <a href="#tbl-summary" class="quarto-xref">Table&nbsp;1</a> provide an overview of customer behaviour in the dataset. On average, the <em><strong>marketing expense per customer is 154.38</strong></em>, while the <em><strong>average purchase amount is 131.78</strong></em>, indicating that customers generate substantial purchases in response to marketing efforts. Customers visit the platform approx 5.76 times on average, suggesting a good level of engagement. <br></h5>
+<div class="cell">
+<div id="tbl-Customer_summary" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Customer_summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Summary of Customer Segment
+</figcaption>
+<div aria-describedby="tbl-Customer_summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<caption>Customer Distribution and Average Purchase by Type</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Customer_Type</th>
+<th style="text-align: right;">Total_Customers</th>
+<th style="text-align: right;">Avg_Purchase</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Consumer</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">140.0746</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SMB</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">123.9920</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Enterprise</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">105.3427</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="among-the-different-customer-segments-the-consumer-group-has-the-highest-average-purchase-amount-indicating-that-this-segment-contributes-most-to-overall-sales.-these-insights-provide-useful-context-for-understanding-customer-behaviour-before-analysing-the-relationship-between-marketing-expense-and-purchase-amount." class="level5">
+<h5 class="anchored" data-anchor-id="among-the-different-customer-segments-the-consumer-group-has-the-highest-average-purchase-amount-indicating-that-this-segment-contributes-most-to-overall-sales.-these-insights-provide-useful-context-for-understanding-customer-behaviour-before-analysing-the-relationship-between-marketing-expense-and-purchase-amount.">Among the different customer segments, the <em><strong>Consumer group</strong></em> has the highest average purchase amount, indicating that this segment contributes most to overall sales. These insights provide useful context for understanding customer behaviour before analysing the relationship between marketing expense and purchase amount.</h5>
+</section>
+<section id="relationship-between-purchase-expense." class="level2">
+<h2 class="anchored" data-anchor-id="relationship-between-purchase-expense.">Relationship between Purchase &amp; Expense.</h2>
+<section id="the-fig-plot1-plot-shows-a-clear-positive-relationship-between-marketing-expense-and-purchase-amount-with-higher-spending-associated-with-increased-customer-purchases.-the-linear-regression-model-confirms-this-explaining-approximately-71.9-of-the-variation-in-purchase-amount-r²-0.719." class="level5">
+<h5 class="anchored" data-anchor-id="the-fig-plot1-plot-shows-a-clear-positive-relationship-between-marketing-expense-and-purchase-amount-with-higher-spending-associated-with-increased-customer-purchases.-the-linear-regression-model-confirms-this-explaining-approximately-71.9-of-the-variation-in-purchase-amount-r²-0.719.">The <a href="#fig-plot1" class="quarto-xref">Figure&nbsp;1</a> plot shows a clear positive relationship between marketing expense and purchase amount, with higher spending associated with increased customer purchases. The linear regression model confirms this, explaining approximately 71.9% of the variation in purchase amount (R² = 0.719).</h5>
+</section>
+<section id="the-relationship-is-highly-statistically-significant-p-0.001-indicating-a-reliable-effect-of-marketing-on-sales.-despite-some-variability-residual-standard-error-49.75-the-results-suggest-that-marketing-expense-is-a-strong-predictor-of-customer-purchasing-behaviour." class="level5">
+<h5 class="anchored" data-anchor-id="the-relationship-is-highly-statistically-significant-p-0.001-indicating-a-reliable-effect-of-marketing-on-sales.-despite-some-variability-residual-standard-error-49.75-the-results-suggest-that-marketing-expense-is-a-strong-predictor-of-customer-purchasing-behaviour.">The relationship is highly statistically significant (p &lt; 0.001), indicating a reliable effect of marketing on sales. Despite some variability (residual standard error ≈ 49.75), the results suggest that marketing expense is a strong predictor of customer purchasing behaviour.</h5>
+<div class="cell" data-result="hide">
+<div class="cell-output-display">
+<div id="fig-plot1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Campaign_Expense_Analysis_files/figure-html/fig-plot1-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Relationship: marketing expense and purchase amount
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="final-result-do-we-still-spend-on-marketing" class="level1">
+<h1>Final Result: Do We Still Spend On Marketing?</h1>
+<section id="the-answer-is-a-yes.-there-are-few-things-that-we-must-give-consideration-to" class="level4">
+<h4 class="anchored" data-anchor-id="the-answer-is-a-yes.-there-are-few-things-that-we-must-give-consideration-to">The answer is a Yes. There are few things that we must give consideration to: <br></h4>
+<ul>
+<li><h4 id="satistical-outcome-considering-tbl-summary-one-might-say-that-the-average-expense-is-more-than-purchase-however-the-difference-however-is-very-less-and-business-growth-is-a-long-process-hence-the-gap-will-easily-be-covered-to-move-from-breakeven-to-profit-points-for-the-company.-average-visits-also-indicate-that-customers-are-engaging-with-the-advertisements.-the-fig-plot1-suggests-a-strong-a-relationship-and-impact-of-marketing-expense-on-the-purchase." class="anchored"><strong>Satistical Outcome</strong>: Considering <a href="#tbl-summary" class="quarto-xref">Table&nbsp;1</a>, one might say that the average expense is more than purchase, however, the difference however is very less, and business growth is a long process, hence the gap will easily be covered to move from breakeven to profit points for the company. Average visits also indicate that customers are engaging with the advertisements. The <a href="#fig-plot1" class="quarto-xref">Figure&nbsp;1</a> suggests a strong a relationship and impact of marketing expense on the purchase. <br></h4></li>
+<li><h4 id="customer-segments-as-seen-in-the-tbl-customer_summary-there-are-various-customer-segments.-the-company-should-rather-bifurcate-its-strategies-of-marketing-based-on-the-segment-of-customers-the-campaign-or-advertisement-is-made-to-target." class="anchored"><strong>Customer Segments</strong>: As seen in the <a href="#tbl-Customer_summary" class="quarto-xref">Table&nbsp;2</a>, there are various customer segments. The company should rather bifurcate it’s strategies of marketing based on the segment of customers the campaign or advertisement is made to target. <br></h4></li>
+<li><h4 id="other-factors-business-growth-depends-on-many-other-factors-than-just-marketing-and-hence-while-it-does-play-a-major-role-brand-loyalty-age-of-the-business-seasonality-and-target-audience-also-have-effects-on-why-the-customer-would-purchase." class="anchored"><strong>Other Factors</strong>: Business growth depends on many other factors than just Marketing, and hence, while it does play a major role, brand loyalty, age of the business, seasonality, and target audience also have effects on why the customer would purchase. <br></h4></li>
+</ul>
+</section>
+</section>
+<section id="limitations-of-data" class="level1">
+<h1>Limitations of Data</h1>
+<ul>
+<li><h4 id="missing-values-there-were-certain-missing-values-and-string-data-such-as-comments-are-not-exactly-recorded-consistently-for-the-data-set.-date-records-too-were-found-to-be-missing." class="anchored" data-anchor-id="limitations-of-data"><strong>Missing values</strong>: There were certain missing values and string data such as Comments are not exactly recorded consistently for the data set. Date records too were found to be missing.</h4></li>
+<li><h4 id="mixed-pattern-while-date-section-had-various-formats-that-was-cleaned-empty-cells-under-purchase-amount-or-na-was-recorded." class="anchored"><strong>Mixed pattern</strong>: While date section had various formats that was cleaned, empty cells under purchase amount or “NA” was recorded.</h4></li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
